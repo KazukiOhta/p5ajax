@@ -14,4 +14,25 @@ function draw() {
 
 function keyPressed(){
     console.log(state);
+
+    var json = {state: state};
+    var newstate;
+
+    var post = $.ajax({
+        type: "POST",
+        url: "/delta",
+        data: json,
+        async: false,
+        dataType: "json",
+        success: function(response) {
+            console.log(response);
+            newstate = response.state;
+        }, 
+        error: function(error) {
+            console.log("Error occurred in post in keyPressed().");
+            console.log(error);
+        }
+    })
+
+    state = newstate;
 }
